@@ -1,0 +1,16 @@
+{
+  "name": "gitleaderboard",
+  "version": "1.0.0",
+  "description": "A leaderboard for github users and their followers based on the number of commits",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "WayneJr",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  }
+}
