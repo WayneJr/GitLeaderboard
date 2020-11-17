@@ -1,12 +1,46 @@
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const port = process.env.PORT || 4000;
-const router = require('./api/router');
+require('dotenv').config();
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(__dirname + '/public'));
+const express        = require('express');
+const app            = express();
+// const bodyParser  = require('body-parser');
+const port           = process.env.PORT || 4000;
+const session        = require('express-session');
+const passport       = require('passport');
+const GithubStrategy = require('passport-github2').Strategy;
+const profileRoutes = require('./api/routers/profileRoutes');
 
-router(app);
+const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+
+app.use(session({
+    secret: "thesecret",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
+passport.deserializeUser((obj, done) => {
+    done(null, obj);
+});
+
+passport.use(new GithubStrategy({
+    clientID: GITHUB_CLIENT_ID,
+    clientSecret: GITHUB_CLIENT_SECRET,
+    callbackURL: "http://localhost:4000/auth/github/callback"
+}, (accessToken, refreshToken, profile, done) => {
+    process.nextTick(() => done(null, profile));
+}));
+
+app.use(profileRoutes);
+
+
 app.listen(port, () => console.log('listening on port: ' + port));
 
