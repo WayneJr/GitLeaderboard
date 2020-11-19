@@ -30,7 +30,6 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((obj, done) => {
     done(null, obj);
 });
-
 passport.use(new GithubStrategy({
     clientID: GITHUB_CLIENT_ID,
     clientSecret: GITHUB_CLIENT_SECRET,
@@ -38,6 +37,10 @@ passport.use(new GithubStrategy({
 }, (accessToken, refreshToken, profile, done) => {
     process.nextTick(() => done(null, profile));
 }));
+// app.use((req, res, next) => {
+//     res.locals.currentUser = req.user;
+//     next();
+// })
 
 app.use(profileRoutes);
 

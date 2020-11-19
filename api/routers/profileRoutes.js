@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
+    // res.redirect('/auth/github');
     res.render('login', {user: req.user});
     // res.sendFile('pages');
 });
@@ -16,13 +17,13 @@ router.get('/login', (req, res) => {
 router.get('/auth/github',
     passport.authenticate('github', {scope: ['user:email']}),
     (req, res) => {
-    console.log(req.user);
+    // console.log(req.user);
 });
 
 router.get('/auth/github/callback',
-    passport.authenticate('github', {failureRedirect: '/login'}),
+    passport.authenticate('github', {failureRedirect: '/auth/github'}),
     (req, res) => {
-        console.log(req.user);
+        // console.log(req.user);
         res.redirect('/');
 });
 
@@ -34,15 +35,17 @@ router.get('/logout', (req, res) => {
 router.get('/test', isAuthenticated, (req, res) => {
     testReq(req)
         .then(data => {
-            res.json(data);
+            res.json({
+                data
+            });
             res.statusCode = 200;
         })
         .catch(err => console.log(err));
 });
 
 function isAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    res.redirect('/login');
+    return req.isAuthenticated() ? next() : res.redirect('/login');
+
 }
 
 module.exports = router;
