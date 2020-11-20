@@ -33,7 +33,7 @@ passport.deserializeUser((obj, done) => {
 passport.use(new GithubStrategy({
     clientID: GITHUB_CLIENT_ID,
     clientSecret: GITHUB_CLIENT_SECRET,
-    callbackURL: "http://localhost:4000/auth/github/callback"
+    callbackURL: "http://localhost:4000/auth/github/callback" // change this when you're deploying
 }, (accessToken, refreshToken, profile, done) => {
     process.nextTick(() => done(null, profile));
 }));

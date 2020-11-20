@@ -4,6 +4,7 @@ const passport  = require('passport');
 const {testReq} = require('../controllers/profileDataController');
 
 router.get('/', (req, res) => {
+    res.send('Index Page');
     // res.sendFile('index.html');
     // res.render('index', {user: req.user});
 });
