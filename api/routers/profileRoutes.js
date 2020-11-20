@@ -9,8 +9,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-    // res.redirect('/auth/github');
-    res.render('login', {user: req.user});
+    res.redirect('/auth/github');
+    // res.render('login', {user: req.user});
     // res.sendFile('pages');
 });
 
@@ -32,7 +32,7 @@ router.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-router.get('/test', isAuthenticated, (req, res) => {
+router.get('/data', isAuthenticated, (req, res) => {
     testReq(req)
         .then(data => {
             res.json({
