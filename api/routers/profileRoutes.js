@@ -5,7 +5,7 @@ const {testReq} = require('../controllers/profileDataController');
 
 router.get('/', (req, res) => {
     // res.sendFile('index.html');
-    res.render('index', {user: req.user});
+    // res.render('index', {user: req.user});
 });
 
 router.get('/login', (req, res) => {
@@ -24,12 +24,12 @@ router.get('/auth/github/callback',
     passport.authenticate('github', {failureRedirect: '/auth/github'}),
     (req, res) => {
         // console.log(req.user);
-        res.redirect('/');
+        res.redirect('/data');
 });
 
 router.get('/logout', (req, res) => {
     req.logout();
-    res.redirect('/');
+    // res.redirect('/');
 });
 
 router.get('/data', isAuthenticated, (req, res) => {
